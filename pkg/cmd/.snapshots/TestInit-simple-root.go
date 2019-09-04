@@ -15,7 +15,7 @@ func NewPplateCommand() *cobra.Command {
 		},
 	}
 	var loggingMode string
-	getLoggingMode(rootCmd, &loggingMode)
+	setLoggingMode(rootCmd, &loggingMode)
 
 	var commands []Command
 	commands = append(commands, &InitCommand{})
@@ -31,7 +31,7 @@ func NewPplateCommand() *cobra.Command {
 	return rootCmd
 }
 
-func getLoggingMode(cmd *cobra.Command, loggingMode *string) {
+func setLoggingMode(cmd *cobra.Command, loggingMode *string) {
 	cmd.PersistentFlags().StringVarP(loggingMode, "logging", "l", "verbose", "output log level")
 }
 

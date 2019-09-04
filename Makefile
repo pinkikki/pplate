@@ -1,9 +1,6 @@
 BUILD_DIR=./build
 MODULE_NAME=pplate
 
-.PHONY: setup
-setup:
-	dep ensure -v -vendor-only
 .PHONY: test
 test:
 	go test -v ./...
