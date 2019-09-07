@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/pinkikki/pplate/pkg/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 type Config struct {
@@ -41,12 +40,14 @@ func NewPplateCommand() *cobra.Command {
 
 		viper.SetConfigFile(configPath)
 		if err := viper.ReadInConfig(); err != nil {
-			fmt.Printf("failed to read config. path[%s]: %v\n", configPath, err)
+			logging.Setting(logging.NewMode(viper.GetString("logging")))
+			zap.L().Warn("failed to read config.", zap.Any("err", err))
 		}
 
 		var config Config
 		if err := viper.Unmarshal(&config); err != nil {
-			fmt.Printf("failed to unmarshal config. : %v\n", err)
+			logging.Setting(logging.NewMode(viper.GetString("logging")))
+			zap.L().Fatal("failed to unmarshal config.", zap.Any("err", err))
 		}
 		logging.Setting(logging.NewMode(config.Logging))
 		for _, c := range commands {

@@ -76,7 +76,7 @@ func (p *param) generate(ctx *Context, vars interface{}) error {
 	if ok, err := afero.DirExists(ctx.FS, dir); err != nil {
 		return err
 	} else if !ok {
-		zap.L().Debug("create a directory", zap.String("dir", dir))
+		ctx.Logger.Debug("create a directory", zap.String("dir", dir))
 		err = ctx.FS.MkdirAll(dir, 0755)
 		if err != nil {
 			return err
@@ -91,7 +91,7 @@ func (p *param) generate(ctx *Context, vars interface{}) error {
 		}
 		data := buf.Bytes()
 
-		zap.L().Debug("create a new flie", zap.String("path", p.path))
+		ctx.Logger.Debug("create a new flie", zap.String("path", p.path))
 		err = afero.WriteFile(ctx.FS, p.path, data, 0644)
 		if err != nil {
 			return err
