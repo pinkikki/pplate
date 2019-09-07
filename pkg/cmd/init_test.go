@@ -1,10 +1,11 @@
 package cmd_test
 
 import (
-	"github.com/pinkikki/pplate/pkg/logging"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/pinkikki/pplate/pkg/logging"
 
 	"github.com/bradleyjkemp/cupaloy"
 
@@ -63,11 +64,13 @@ func TestInit(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			initCommand := &cmd.InitCommand{}
-			fs := afero.NewMemMapFs()
-			ctx := &cmd.Context{FS: fs, Logger: zap.L().Named(initCommand.Name())}
+			ctx := &cmd.Context{}
 			command := initCommand.NewCommand(ctx)
+			var fs afero.Fs
 			cobra.OnInitialize(func() {
 				initCommand.OnInitialize()
+				fs = afero.NewMemMapFs()
+				ctx.FS = fs
 			})
 			err := executeSubCommand(command, "init", moduleName)
 			if err != nil {

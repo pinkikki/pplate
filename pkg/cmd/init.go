@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
+
 	"github.com/pinkikki/pplate/pkg/template"
 	"github.com/spf13/afero"
 	"go.uber.org/zap"
-	"os"
-	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -62,7 +63,8 @@ func (c *InitCommand) NewCommand(ctx *Context) *cobra.Command {
 }
 
 func (c *InitCommand) OnInitialize() {
-	// nop
+	c.Logger = zap.L().Named(c.Name())
+	c.FS = afero.NewOsFs()
 }
 
 func (c *InitCommand) Name() string {

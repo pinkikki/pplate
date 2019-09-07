@@ -2,8 +2,9 @@ package logging
 
 import (
 	"fmt"
-	"go.uber.org/zap"
 	"os"
+
+	"go.uber.org/zap"
 )
 
 type Mode int
@@ -15,7 +16,6 @@ const (
 )
 
 func NewMode(mode string) Mode {
-	fmt.Print(mode)
 	for i, name := range Debug.Names() {
 		if mode == name {
 			return Mode(i)
